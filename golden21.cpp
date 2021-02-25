@@ -6,13 +6,13 @@ double golden__section__search (double a, double b);
 double golden__start (double a, double b);
 double __pna__try (double a, double b, double xa, double ya, double xb, double yb);
 bool close__enough_Q (double x, double y);
+extern double mphi;
+extern double tolerance;
+extern double total__iterations;
+extern double xmin;
+
 double a = 2.;
 double b = 6.;
-double mphi = (3. - sqrt(5.)) * (1. / 2.);
-double tolerance = 0.001;
-double total__iterations = 0.;
-double xmin = 0.;
-
 double fun (double x) {
     x = x - 24. / 25.;
     return x + sin(x) + cos(x);
@@ -30,10 +30,11 @@ double golden__start (double a, double b) {
     {
         double
             xa(a + mphi * (b - a)),
-            xb(b - mphi * (b - a));
+            xb(b + ( - mphi * (b - a)));
         return __pna__try(a, b, xa, fun(xa), xb, fun(xb));
     }
 }
+double mphi = (3. - sqrt(5.)) * (1. / 2.);
 double __pna__try (double a, double b, double xa, double ya, double xb, double yb) {
     return (close__enough_Q(a,b) ? (
         (a + b) * 0.5) : (
@@ -58,6 +59,9 @@ double __pna__try (double a, double b, double xa, double ya, double xb, double y
 bool close__enough_Q (double x, double y) {
     return (abs(x - y) < tolerance);
 }
+double tolerance = 0.001;
+double total__iterations = 0.;
+double xmin = 0.;
 int main() {
     xmin = golden__section__search(a, b);
     display("interval=\t[");
